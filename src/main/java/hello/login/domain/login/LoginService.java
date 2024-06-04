@@ -17,8 +17,16 @@ public class LoginService {
      * @return null이면 로그인 실패
      */
     public Member login(String loginId, String password) {
-        Optional<Member> findMemberOptional = memberRepository.findByLoninId(loginId);
+//        Optional<Member> findMemberOptional = memberRepository.findByLoninId(loginId);
+//        Member member = findMemberOptional.get();
+//        if (member.getPassword().equals(password)) {
+//            return member;
+//        } else {
+//            return null;
+//        }
 
+        Optional<Member> byLoninId = memberRepository.findByLoninId(loginId);
+        return byLoninId.filter(m -> m.getPassword().equals(password)).orElse(null);
     }
 
 }
