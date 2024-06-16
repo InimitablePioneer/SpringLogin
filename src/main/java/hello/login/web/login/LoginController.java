@@ -47,9 +47,9 @@ public class LoginController {
         response.addCookie(idCookie);
 
         return "redirect:/";
-
-
     }
+
+      
 
     @PostMapping("/logout")
     public String logout(HttpServletResponse response) {
