@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @Slf4j
 @RestController //좀더 학습
@@ -16,7 +17,20 @@ public class SessionInfoController {
         if (session == null) {
             return "세션이 없습니다.";
         }
+        //세션 데이터 출력
+        session.getAttributeNames().asIterator()
+                .forEachRemaining(name -> log.info("session name={}, value={}",
+                        name, session.getAttribute(name)));
+
+        log.info("sessionId={}", session.getId());
+        log.info("maxInactiveInterval={}", session.getMaxInactiveInterval());
+        log.info("creationTime={}", new Date(session.getCreationTime()));
+        log.info("lastAccessedTime={}", new Date(session.getLastAccessedTime()));
+        log.info("isNew={}", session.isNew());
+
+        return "세션 출력";
     }
+
     public static void main(String[] args) {
 
     }
