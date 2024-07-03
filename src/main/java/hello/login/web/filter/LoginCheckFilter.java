@@ -31,19 +31,27 @@ public class LoginCheckFilter implements Filter {
                 if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
                     log.info("미인증 사용자 요청 {}", requestURI);
                     //로그인으로 redirect
-                    httpResponse.sendRedirect();
+                    httpResponse.sendRedirect("/login?redirect=" + requestURI);
+
+                    return; //미인증 사용자는 다음으로 진행하지 않고 끝
                 }
             }
+            chain.doFilter(request, response);
         } catch (Exception e) {
-
+            throw  e; //예외 로깅 가능 하지만, 톰캣까지 예외를 보내주어야 함
         } finally{
-
+            log.info("인증 체크 필터 종료 {}", requestURI);
         }
 
 
 
     }
 
+    /**
+     * 화이트 리스트의 경우 인증 체크 않함
+     * @param requestURI
+     * @return boolean
+     */
     private boolean isLoginCheckPath(String requestURI) {
         return !PatternMatchUtils.simpleMatch(whitelist, requestURI);
     }
