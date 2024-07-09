@@ -92,4 +92,17 @@ public class HomeController {
         return "loginHome";
     }
 
+    @GetMapping("/")
+    public String homeLoginV3ArgmentResolver(@Login Member loginMember, Model model) {
+
+        //if session does not have member data
+        if (loginMember == null) {
+            return "home";
+        }
+
+        //if session is maintained ==> move to loginhome page
+        model.addAttribute("member", loginMember);
+        return "loginHome";
+    }
+
 }
